@@ -1,0 +1,27 @@
+f = figure;
+clf;
+PlotData('BM_F0000CH1.CSV','BM_F0000CH2.CSV');
+saveas(f,'figure\\BM_Data.eps','epsc');
+saveas(f,'figure\\BM_Data.jpg');
+clf;
+PlotFeature('BM_F0000CH1.CSV','BM_F0000CH2.CSV');
+saveas(f,'figure\\BM_Curve.eps','epsc');
+saveas(f,'figure\\BM_Curve.jpg');
+clf;
+PlotData('M_F0003CH1.CSV','M_F0003CH2.CSV');
+saveas(f,'figure\\M_Data.eps','epsc');
+saveas(f,'figure\\M_Data.jpg');
+clf;
+PlotFeature('M_F0003CH1.CSV','M_F0003CH2.CSV');
+saveas(f,'figure\\M_Curve.eps','epsc');
+saveas(f,'figure\\M_Curve.jpg');
+clf;
+PlotData('S_F0001CH1.CSV','S_F0001CH2.CSV');
+saveas(f,'figure\\S_Data.eps','epsc');
+saveas(f,'figure\\S_Data.jpg');
+clf;
+PlotFeature('S_F0001CH1.CSV','S_F0001CH2.CSV');
+saveas(f,'figure\\S_Curve.eps','epsc');
+saveas(f,'figure\\S_Curve.jpg');
+%% Close
+close(f);
