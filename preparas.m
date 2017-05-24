@@ -1,0 +1,12 @@
+clear;
+Uoc=335;Isc=48;Umpp=240;Pmpp=10e3;Impp=Pmpp/Umpp;
+Iph0=Isc;C0=(log((Iph0-Impp)/Iph0)+Impp/(Iph0-Impp))/(2*Umpp-Uoc);
+Io0=Iph0/(exp(C0*Uoc)-1);Rs0=(Umpp-Impp/(C0*(Iph0+Io0-Impp)))/Impp;
+x0=[Iph0 C0 Io0 Rs0]';
+Equation=@(x)[log((x(1)+x(3)-Isc)/x(3))/x(2)-Isc*x(4);
+    log((x(1)+x(3))/x(3))/x(2)-Uoc;
+    log((x(1)+x(3)-Impp)/x(3))/x(2)-Impp*x(4)-Umpp;
+    Impp/(x(2)*(x(1)+x(3)-Impp))+Impp*x(4)-Umpp;];
+Equationlog=@(x) Equation(exp(x));
+x=exp(fsolve(Equationlog,log(x0)));
+Iph=x(1);C=x(2);Io=x(3);Rs=x(4);
