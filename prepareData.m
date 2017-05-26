@@ -9,8 +9,8 @@ Imp=Pmp/Ump;
 Iph1=Iph;Iph2=Iph*0.3;
 Iph3=0.9*Iph;Iph4=0.1*Iph;
 
-U=(-0.07*Uoc:Uoc/50:2*Uoc)';% To calc
-Ui=(-0.07*Uoc:Uoc/500:2*Uoc)';% To spline
+U=(0:Uoc/50:2*Uoc)';% To calc
+Ui=(0:Uoc/500:2*Uoc)';% To spline
 %% Calc P-V I-V Curve
 U1 = U;
 I = U;

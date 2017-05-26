@@ -1,13 +1,9 @@
-%% MPPT - SA
-T = 1;
-r = 0.92;
-Tmin = 0.05;
-
+%% MPPT - INC
 flag=zeros(length(Ui),1);
 k=length(Ui)-10;
 dk=5;
 lastk=k+dk;
-while(T > Tmin)
+while(1)
     dI=Ii(k)-Ii(lastk);
     dU=Ui(k)-Ui(lastk);
     I=Ii(k);
@@ -41,7 +37,6 @@ while(T > Tmin)
     plot(U,I,'ro');
     yyaxis right;
     plot(U,U*I,'bo');
-    T = r*T;
     %pause(0.1);
 end
 for i=1:length(flag)
