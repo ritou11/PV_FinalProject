@@ -9,8 +9,8 @@ Imp=Pmp/Ump;
 Iph1=Iph;Iph2=Iph*0.3;
 Iph3=0.9*Iph;Iph4=0.1*Iph;
 
-U=(-0.07*Uoc:Uoc/50:2*Uoc)';% To calc
-Ui=(-0.07*Uoc:Uoc/500:2*Uoc)';% To spline
+U=(0:Uoc/50:2*Uoc)';% To calc
+Ui=(0:Uoc/500:2*Uoc)';% To spline
 %% Calc P-V I-V Curve
 U1 = U;
 I = U;
@@ -25,15 +25,10 @@ close(h);
 Ii = spline(U,I,Ui);
 %% Plot P-V & I-V Curve
 figure;
+AX=plotyy(Ui,Ii,Ui,Ui.*Ii);
+set(AX(1),'xlim',[0 2*Uoc],'ylim',[0 1.05*max(Ii)],'ytick',0:5*10^floor(log10(max(Ii/10))):1.05*max(Ii));
+set(AX(2),'xlim',[0 2*Uoc],'ylim',[0 1.05*max(Ui.*Ii)],'ytick',0:5*10^floor(log10(max(Ui.*Ii/10))):1.05*max(Ui.*Ii));
 hold on;
-yyaxis left;
-plot(Ui,Ii); 
-ylim([0 1.05*max(Ii)]);
-hold on;
-yyaxis right;
-plot(Ui,Ui.*Ii);
-ylim([0 1.05*max(Ui.*Ii)]);
-xlim([0 2*Uoc]);
 %% MPPT
 flag=zeros(length(Ui),1);
 k=length(Ui)-10;
@@ -69,18 +64,23 @@ while(1)
            lastk=k;
        end       
     end
-    yyaxis left;
-    plot(U,I,'ro');
-    yyaxis right;
-    plot(U,U*I,'bo');
+%     yyaxis left;
+%     plot(U,I,'ro');
+%     yyaxis right;
+%     plot(U,U*I,'bo');
+    plotbo =@(X,Y) plot(X,Y,'bo');
+    plotro =@(X,Y) plot(X,Y,'ro');
+    Ax=plotyy(U,I,U,U*I,plotbo,plotro);
+    set(Ax(1),'xlim',[0 2*Uoc],'ylim',[0 1.05*max(Ii)],'ytick',0:5*10^floor(log10(max(Ii/10))):1.05*max(Ii));
+    set(Ax(2),'xlim',[0 2*Uoc],'ylim',[0 1.05*max(Ui.*Ii)],'ytick',[]);
     %pause(0.1);
 end
-for i=1:length(flag)
-    if(flag(i)>=4)
-        yyaxis left;
-        plot(Ui(i),Ii(i),'r*');
-        yyaxis right;
-        plot(Ui(i),Ii(i)*Ui(i),'b*');
-    end
-end
+% for i=1:length(flag)
+%     if(flag(i)>=4)
+%         yyaxis left;
+%         plot(Ui(i),Ii(i),'r*');
+%         yyaxis right;
+%         plot(Ui(i),Ii(i)*Ui(i),'b*');
+%     end
+% end
 end
