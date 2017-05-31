@@ -75,6 +75,7 @@ title('功率预测P&O算法追踪电压功率变化情况');
 yyaxis left;
 stairs(tstep, U);
 ylabel('U/V');
+ylim([Uoc*0.35 Uoc*0.95]);
 yyaxis right;
 stairs(tstep, P);
 ylabel('P/W');
