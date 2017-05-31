@@ -36,6 +36,12 @@
         \caption{原始光伏阵列特性曲线}
         \label{fig:bare-pviv}
     \end{figure}
+    \begin{figure}[htbp]
+        \centering
+        \includegraphics[width=0.9\textwidth]{../figure/p-v-many.eps}
+        \caption{不同光照下的PV曲线}
+        \label{fig:p-v-many}
+    \end{figure}
     % subsection 光伏阵列模型搭建 (end)
     \subsection{常规MPPT控制策略} % (fold)
     \label{sub:常规mppt控制策略}
@@ -53,7 +59,7 @@
     \end{figure}
     \begin{figure}[htbp]
         \centering
-        \includegraphics[width=0.9\textwidth]{../figure/p&o-fault-upt.eps}
+        \includegraphics[width=0.9\textwidth]{../figure/p&o-upt-fault.eps}
         \caption{扰动观察法在光照变化下的电压、功率情况}
         \label{fig:po-fault-upt}
     \end{figure}
@@ -90,11 +96,33 @@
     \end{enumerate}    
     \subsection{多峰值光伏阵列} % (fold)
     \label{sub:多峰值光伏阵列}
-    
+    \begin{figure}[htbp]
+        \centering
+        \includegraphics[width=0.9\textwidth]{../figure/curve-multimax.eps}
+        \caption{多峰值光伏曲线}
+        \label{fig:curve-multimax}
+    \end{figure}
+    \begin{figure}[htbp]
+        \centering
+        \includegraphics[width=0.9\textwidth]{../figure/curve-singlemax.eps}
+        \caption{均匀光照下的串并联阵列特性曲线}
+        \label{fig:curve-singlemax}
+    \end{figure}
     % subsection 多峰值光伏阵列 (end)
     \subsection{常规MPPT策略在多峰值情况下的应用} % (fold)
     \label{sub:常规mppt策略在多峰值情况下的应用}
-    
+    \begin{figure}[htbp]
+        \centering
+        \includegraphics[width=0.9\textwidth]{../figure/mppt-fail-pv.eps}
+        \caption{多峰值下常规MPPT策略的跟踪轨迹}
+        \label{fig:mppt-fail-pv}
+    \end{figure}
+    \begin{figure}[htbp]
+        \centering
+        \includegraphics[width=0.9\textwidth]{../figure/mppt-fail-upt.eps}
+        \caption{多峰值下常规MPPT策略的电压、功率情况}
+        \label{fig:mppt-fail-upt}
+    \end{figure}
     % subsection 常规mppt策略在多峰值情况下的应用 (end)
     \subsection{改进MPPT策略：改良的粒子群算法} % (fold)
     \label{sub:改进mppt策略_改良的粒子群算法}
