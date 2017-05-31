@@ -110,6 +110,7 @@ xlabel('U/V');
 title('MPPT׷�ٹ켣');
 grid on;
 grid minor;
+legend('I-V Curve','I-V Steps','P-V Curve','P-V Steps');
 
 saveas(f,'figure/mppt-pv.eps','epsc');
 saveas(f,'figure/mppt-pv.png');
