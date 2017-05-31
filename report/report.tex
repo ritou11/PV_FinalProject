@@ -1,0 +1,138 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[notoc]{HaotianReport}
+
+\title{\SI{10}{\kW}光伏阵列建模及MPPT策略分析}
+\author{邓思成,刘昊天}
+\authorinfo{电41班, 20140109xx, 2014010942}
+\runninghead{太阳能光伏发电及其应用2017年最终报告}
+\studytime{2017年6月}
+
+\begin{document}
+    \begin{abstract}
+        简述任务完成情况
+        \begin{keywords}
+            光伏发电,MPPT,多峰值,光照变化
+        \end{keywords}
+    \end{abstract}
+    \maketitle
+    %\newpage
+    \section{任务一} % (fold)
+    \label{sec:任务一}
+    \paragraph{任务描述} % (fold)
+    本任务要求完成如下四点。
+    % paragraph 任务描述 (end)
+    \begin{enumerate}[noitemsep,topsep=0pt]
+    \item 搭建光伏阵列模型，满足给定设置，能依据假定光照合理变化，能用于系统仿真;
+    \item 实现 MPPT 控制策略，最经典的扰动观察和电导增量法中的一个即可;
+    \item 实现改建的 MPPT 控制策略，可以使用变步长或者功率预测算法，也可以根据文献或者自己的想法给出的新策略;
+    \item 对上述任务进行性能分析，包括光伏阵列特性曲线、MPPT 稳态特性、MPPT 暂态特性、改进 MPPT 性能提高对比分析等;
+    \end{enumerate}
+
+    \subsection{光伏阵列模型搭建} % (fold)
+    \label{sub:光伏阵列模型搭建}
+    \begin{figure}[htbp]
+        \centering
+        \includegraphics[width=0.9\textwidth]{../figure/bare-pviv.eps}
+        \caption{原始光伏阵列特性曲线}
+        \label{fig:bare-pviv}
+    \end{figure}
+    % subsection 光伏阵列模型搭建 (end)
+    \subsection{常规MPPT控制策略} % (fold)
+    \label{sub:常规mppt控制策略}
+    \begin{figure}[htbp]
+        \centering
+        \includegraphics[width=0.9\textwidth]{../figure/simple-inc.eps}
+        \caption{光照恒定条件下成功跟踪}
+        \label{fig:simple-inc}
+    \end{figure}
+    \begin{figure}[htbp]
+        \centering
+        \includegraphics[width=0.9\textwidth]{../figure/p&o-fault.eps}
+        \caption{扰动观察法在光照变化下的跟踪情况}
+        \label{fig:po-fault}
+    \end{figure}
+    \begin{figure}[htbp]
+        \centering
+        \includegraphics[width=0.9\textwidth]{../figure/p&o-fault-upt.eps}
+        \caption{扰动观察法在光照变化下的电压、功率情况}
+        \label{fig:po-fault-upt}
+    \end{figure}
+    % subsection 常规mppt控制策略 (end)
+    \subsection{改进MPPT：功率预测法} % (fold)
+    \label{sub:改进mppt_功率预测法}
+    \begin{figure}[htbp]
+        \centering
+        \includegraphics[width=0.9\textwidth]{../figure/p&o.eps}
+        \caption{功率预测法在光照变化下的跟踪情况}
+        \label{fig:po}
+    \end{figure}
+    \begin{figure}[htbp]
+        \centering
+        \includegraphics[width=0.9\textwidth]{../figure/p&o-upt.eps}
+        \caption{功率预测法在光照变化下电压、功率情况}
+        \label{fig:po-upt}
+    \end{figure}
+    % subsection 改进mppt_功率预测法 (end)
+    \subsection{算法性能分析} % (fold)
+    \label{sub:算法性能分析}
+    
+    % subsection 算法性能分析 (end)
+    % section 任务一 (end)
+    \section{任务二} % (fold)
+    \label{sec:任务二}
+    \paragraph{任务描述} % (fold)
+    本任务要求完成如下三点。
+    % paragraph 任务描述 (end)
+    \begin{enumerate}[noitemsep,topsep=0pt]
+    \item 将任务一中的光伏阵列分拆成具有串并联结构的几个子阵列，光照均匀时，总阵列的输出特性与任务一中的光伏阵列相同，合理设置子阵列的光照参数，使总阵列输出的 P-V 特性曲线上有两个(包含两个)以上的局域最大功率点，并且全局最大功率点电压和开路电压之间存在至少一个局域最大功率点，实现该光伏阵列模型。
+    \item 保持光照不变，实现多峰值光伏阵列上的常规 MPPT 控制策略仿真和分析。
+    \item 保持光照不变，尝试能够应对多峰值光伏阵列的新型 MPPT 控制策略，并给出分析。
+    \end{enumerate}    
+    \subsection{多峰值光伏阵列} % (fold)
+    \label{sub:多峰值光伏阵列}
+    
+    % subsection 多峰值光伏阵列 (end)
+    \subsection{常规MPPT策略在多峰值情况下的应用} % (fold)
+    \label{sub:常规mppt策略在多峰值情况下的应用}
+    
+    % subsection 常规mppt策略在多峰值情况下的应用 (end)
+    \subsection{改进MPPT策略：改良的粒子群算法} % (fold)
+    \label{sub:改进mppt策略_改良的粒子群算法}
+    \begin{figure}[htbp]
+        \centering
+        \includegraphics[width=0.9\textwidth]{../figure/p-v-one.eps}
+        \caption{标幺功率、标幺电压关系曲线}
+        \label{fig:p-v-one}
+    \end{figure}
+    \begin{figure}[htbp]
+        \centering
+        \includegraphics[width=0.9\textwidth]{../figure/umpp-iph-one.eps}
+        \caption{最大功率点标幺电压随光照变化情况}
+        \label{fig:umpp-iph-one}
+    \end{figure}
+    \begin{figure}[htbp]
+        \centering
+        \includegraphics[width=0.9\textwidth]{../figure/mppt-pv.eps}
+        \caption{改良算法的跟踪轨迹}
+        \label{fig:mppt-pv}
+    \end{figure}
+    \begin{figure}[htbp]
+        \centering
+        \includegraphics[width=0.9\textwidth]{../figure/mppt-upt.eps}
+        \caption{改良算法的电压、功率变化情况}
+        \label{fig:mppt-upt}
+    \end{figure}
+    % subsection 改进mppt策略_改良的粒子群算法 (end)
+    % section 任务二 (end)
+\iffalse
+\begin{itemize}[noitemsep,topsep=0pt]
+%no white space
+\end{itemize}
+\begin{enumerate}[label=\Roman{*}.,noitemsep,topsep=0pt]
+%use upper case roman
+\end{enumerate}
+\begin{multicols}{2}
+%two columns
+\end{multicols}
+\fi
+\end{document}
