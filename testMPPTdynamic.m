@@ -5,7 +5,8 @@ Ump=240;
 Pmp=10e3;
 Imp=Pmp/Ump;
 [Iph, I0, N, Rs] = calcPvParameters(Uoc, Isc, Ump, Imp);
-Iph1=Iph;Iph2=0.3*Iph;t1=4;t2=8;t3=12;t4=16;t5=20;
+Iph1=Iph;Iph2=0.3*Iph;
+t1=4;t2=8;t3=12;t4=16;t5=20;
 dt1=0.1;dt2=0.1;DU=20;dU=5;
 T=100;Tmax=20;U=zeros(Tmax/dt1,1);I=U;P=U;
 %% U I Curve
