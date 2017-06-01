@@ -35,7 +35,7 @@ for i=1:length(IPH)
     plot(U(j),P(j,i),'ko');
 end
 grid on;
-title('不同光照下P-V曲线');
+title('涓嶅悓鍏夌収涓婸-V鏇茬嚎');
 xlabel('U/U_{oc}');
 ylabel('P/P_{m}');
 ylim([0,max(max(P))*1.05]);

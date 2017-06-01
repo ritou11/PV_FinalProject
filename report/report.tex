@@ -16,6 +16,21 @@
     \end{abstract}
     \maketitle
     %\newpage
+    \section{实验目的} % (fold)
+    \label{sec:实验目的}
+    \begin{enumerate}[noitemsep, topsep=0pt]
+        \item 检验课程学习结果
+        \item 增强按目标寻找、归纳、组织知识点的能力
+        \item 综合使用光伏发电相关知识
+        \item 探索实际前沿问题的控制策略
+    \end{enumerate}
+    % section 实验目的 (end)
+    \section{实验说明} % (fold)
+    \label{sec:实验说明}
+    任务见任务说明文档。
+
+    在本次实验中，我们采用了MATLAB作为仿真平台，以m文件为基础，对各个任务进行了详尽的分析与解答。
+    % section 实验说明 (end)
     \section{任务一} % (fold)
     \label{sec:任务一}
     \paragraph{任务描述} % (fold)
@@ -30,12 +45,58 @@
 
     \subsection{光伏阵列模型搭建} % (fold)
     \label{sub:光伏阵列模型搭建}
+    我们知道，光伏阵列的UI特性可以表达为\cref{eq:iv}所示的公式与\cref{fig:pv}所示的电路。其中，$R_p$是一个并联大电阻，在本任务给定的条件下，其值很大，可以等效为$+\infty$。
+    \begin{equation}
+        I=I_{ph}-I_0 (\exp{[\frac{q(U+I R_s)}{AKT}}]-1)-\frac{U+I R_s}{R_p}
+        \label{eq:iv}
+    \end{equation}
+    \begin{figure}[htbp]
+        \centering
+        \includegraphics[width=0.65\textwidth]{pv.png}
+        \caption{光伏板等效电路}
+        \label{fig:pv}
+    \end{figure}    
+    根据第二次作业中的推导，在给定$I_{sc},U_{oc},I_{mpp},U_{mpp},P_m=U_{mpp}I_{mpp}$的条件后，可以推导出“四参数”模型如\cref{eq:iv4,eq:Io,eq:Rs,eq:Iph,eq:N}所示。
+
+    \begin{equation}
+        I=I_{ph}-I_0 (\exp{[\frac{U+I R_s}{N}}]-1)
+        \label{eq:iv4}
+    \end{equation}
+    \begin{equation}\label{eq:Io}
+          I_o=\displaystyle\frac{I_{ph}}{e^{CU_{oc}}-1}
+    \end{equation}
+    \begin{equation}\label{eq:Rs}
+          R_s=\displaystyle\frac{1}{I_{mpp}}\left(U_{mpp}-\displaystyle\frac{I_{mpp}}{C\left(I_{ph}+I_o-I_{mpp}\right)}\right)
+    \end{equation}
+    \begin{equation}\label{eq:Iph}
+          I_{ph}\approx I_{sc}
+    \end{equation}
+    \begin{equation}\label{eq:N}
+          N=1/C\approx\displaystyle1/(\frac{1}{2U_{mpp}-U_{oc}}\left(\ln\displaystyle\frac{I_{ph}-I_{mpp}}{I_{ph}}+\displaystyle\frac{I_{mpp}}{I_{ph}-I_{mpp}}\right))
+    \end{equation}
+
+    四参数模型中的$I_{ph}$是指在给定的测试条件下的光生电流，此处条件为\SI{1000}{\W\per\meter\squared}的光照强度。光生电流随温度、光照强度的变化情况如\cref{eq:iphlt}所示，其中$\alpha$为一常数。当温度不变时，有\cref{eq:iphlambda}所示的关系。在本任务中，可以以光生电流变化的比例反映光照强度变化的比例。
+    \begin{equation}
+        I_{ph}=I_{ph0}(1+\alpha \Delta T)\frac{\lambda}{1000}
+        \label{eq:iphlt}
+    \end{equation}
+    \begin{equation}        
+        I_{ph} \propto \lambda, T=\text{const}
+        \label{eq:iphlambda}
+    \end{equation}
+    
+    在本任务中，逆变器看成一个理想的受控电压源，因此需要从光伏模型的$U$求解$I$。这需要求解一个非线性方程，使用MATLAB自带的fsolve函数求解较慢，因此采用朴素的牛顿迭代法求解，并排除不可行域($I>I_{ph}+I_0$)。这种方式时结果有实际意义，且提升了求解效率。单个光伏模型的代码如\cref{lst:single}所示。
+    \lstinputlisting[label=lst:single,language=matlab]{../PvFunctionI.m}
+    
+    画出标准情况下的PV特性曲线和IV特性曲线，如\cref{fig:bare-pviv}所示。可以看到，其最大功率点、开路电压、短路电流与任务描述一致。TODO:标记最大功率点
     \begin{figure}[htbp]
         \centering
         \includegraphics[width=0.9\textwidth]{../figure/bare-pviv.eps}
         \caption{原始光伏阵列特性曲线}
         \label{fig:bare-pviv}
     \end{figure}
+
+    为了验证模型的正确性，可以令光照在\SIrange{100}{1200}{\W\per\meter\squared}范围内变化，观察其最大功率点的变化情况。可以看到\cref{fig:p-v-many}中，在这个合理的范围内，最大功率点组成的曲线是向右倾斜的，符合经验。TODO：最大功率点连线
     \begin{figure}[htbp]
         \centering
         \includegraphics[width=0.9\textwidth]{../figure/p-v-many.eps}
@@ -45,6 +106,9 @@
     % subsection 光伏阵列模型搭建 (end)
     \subsection{常规MPPT控制策略} % (fold)
     \label{sub:常规mppt控制策略}
+    TODO：INC改P\&O
+
+    最常见的MPPT控制策略有两种，即电导增量法INC和扰动观察法P\&O。
     \begin{figure}[htbp]
         \centering
         \includegraphics[width=0.9\textwidth]{../figure/simple-inc.eps}
@@ -157,11 +221,15 @@
         \label{sec:fengong}
         \paragraph{邓思成} % (fold)
         \label{par:邓思成}
-        扯犊子
+        部分模型代码；部分MPPT代码；部分报告；部分PPT；
+
+        总体工作量：50\%。
         % paragraph 邓思成 (end)
         \paragraph{刘昊天} % (fold)
         \label{par:刘昊天}
-        扯犊子
+        部分模型代码；部分MPPT代码；部分报告；部分PPT；
+
+        总体工作量：50\%。
         % paragraph 刘昊天 (end)
     \end{appendix}
 \iffalse
