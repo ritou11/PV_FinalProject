@@ -5,6 +5,7 @@ testSingle;
 testManySingle;
 %% Task 1.2
 testPO;
+testMPPTdynamic_fault;
 % -fault testMPPTdynamic
 %% Task 1.3
 testMPPTdynamic;
