@@ -24,6 +24,8 @@ end
 close(h);
 U=Ui;
 I=Ii;
+maxu = IPH;
+maxp = IPH;
 %%
 f = figure;
 plot(U,U.*I(:,length(IPH)));
@@ -32,10 +34,12 @@ for i=1:length(IPH)
     P(:,i)=U.*I(:,i);
     plot(U,P(:,i));
     [~,j]= max(P(:,i));
-    plot(U(j),P(j,i),'ko');
+    maxu(i)=U(j);
+    maxp(i)=P(j,i);
 end
+plot(maxu,maxp,'ko-');
 grid on;
-title('涓嶅悓鍏夌収涓婸-V鏇茬嚎');
+title('不同光照下的P-V曲线');
 xlabel('U/U_{oc}');
 ylabel('P/P_{m}');
 ylim([0,max(max(P))*1.05]);

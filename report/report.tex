@@ -88,7 +88,7 @@
     在本任务中，逆变器看成一个理想的受控电压源，因此需要从光伏模型的$U$求解$I$。这需要求解一个非线性方程，使用MATLAB自带的fsolve函数求解较慢，因此采用朴素的牛顿迭代法求解，并排除不可行域($I>I_{ph}+I_0$)。这种方式时结果有实际意义，且提升了求解效率。单个光伏模型的代码如\cref{lst:single}所示。
     \lstinputlisting[label=lst:single,language=matlab]{../PvFunctionI.m}
     
-    画出标准情况下的PV特性曲线和IV特性曲线，如\cref{fig:bare-pviv}所示。可以看到，其最大功率点、开路电压、短路电流与任务描述一致。TODO:标记最大功率点
+    画出标准情况下的PV特性曲线和IV特性曲线，如\cref{fig:bare-pviv}所示。可以看到，其最大功率点、开路电压、短路电流与任务描述一致。    
     \begin{figure}[htbp]
         \centering
         \includegraphics[width=0.9\textwidth]{../figure/bare-pviv.eps}
@@ -96,7 +96,7 @@
         \label{fig:bare-pviv}
     \end{figure}
 
-    为了验证模型的正确性，可以令光照在\SIrange{100}{1200}{\W\per\meter\squared}范围内变化，观察其最大功率点的变化情况。可以看到\cref{fig:p-v-many}中，在这个合理的范围内，最大功率点组成的曲线是向右倾斜的，符合经验。TODO：最大功率点连线
+    为了验证模型的正确性，可以令光照在\SIrange{100}{1200}{\W\per\meter\squared}范围内变化，观察其最大功率点的变化情况。可以看到\cref{fig:p-v-many}中，在这个合理的范围内，最大功率点组成的曲线是向右倾斜的，符合经验。
     \begin{figure}[htbp]
         \centering
         \includegraphics[width=0.9\textwidth]{../figure/p-v-many.eps}
@@ -108,17 +108,23 @@
     \label{sub:常规mppt控制策略}
     TODO：INC改P\&O
 
-    最常见的MPPT控制策略有两种，即电导增量法INC和扰动观察法P\&O。
+    最常见的MPPT控制策略有两种，即电导增量法INC和扰动观察法P\&O。本任务中，我们选择P\&O予以实现。
     \begin{figure}[htbp]
         \centering
-        \includegraphics[width=0.9\textwidth]{../figure/simple-inc.eps}
-        \caption{光照恒定条件下成功跟踪}
-        \label{fig:simple-inc}
+        \includegraphics[width=0.9\textwidth]{../figure/const-p&o.eps}
+        \caption{P\&O在光照恒定条件下跟踪情况}
+        \label{fig:const-po}
+    \end{figure}
+    \begin{figure}[htbp]
+        \centering
+        \includegraphics[width=0.9\textwidth]{../figure/const-p&o-upt.eps}
+        \caption{P\&O在光照恒定条件下跟踪情况}
+        \label{fig:const-po-upt}
     \end{figure}
     \begin{figure}[htbp]
         \centering
         \includegraphics[width=0.9\textwidth]{../figure/p&o-fault.eps}
-        \caption{扰动观察法在光照变化下的跟踪情况}
+        \caption{P\&O在光照变化下的跟踪情况}
         \label{fig:po-fault}
     \end{figure}
     \begin{figure}[htbp]

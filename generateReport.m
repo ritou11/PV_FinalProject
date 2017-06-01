@@ -4,7 +4,7 @@ clear;
 testSingle;
 testManySingle;
 %% Task 1.2
-testINC;
+testPO;
 % -fault testMPPTdynamic
 %% Task 1.3
 testMPPTdynamic;

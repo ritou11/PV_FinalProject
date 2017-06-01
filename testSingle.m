@@ -12,14 +12,19 @@ xi=yu;
 for i=1:length(yu)
     xi(i)=PvFunctionI(yu(i),Iph,I0,N,Rs);
 end
+[~,j]= max(xi.*yu);
+
 f = figure;
+hold on;
 yyaxis left;
 plot(yu,xi);
+plot(yu(j),xi(j),'ko');
 ylabel('I/A');
 ylim([0,Iph*1.1]);
 
 yyaxis right;
 plot(yu,xi.*yu);
+plot(yu(j),xi(j)*yu(j),'ko');
 ylim([0,1.1*max(xi.*yu)]);
 ylabel('P/W');
 
