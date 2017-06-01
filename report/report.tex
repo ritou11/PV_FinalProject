@@ -106,9 +106,7 @@
     % subsection 光伏阵列模型搭建 (end)
     \subsection{常规MPPT控制策略} % (fold)
     \label{sub:常规mppt控制策略}
-    TODO：INC改P\&O
-
-    最常见的MPPT控制策略有两种，即电导增量法INC和扰动观察法P\&O。本任务中，我们选择P\&O予以实现。
+    最常见的MPPT控制策略有两种，即电导增量法INC和扰动观察法P\&O。本任务中，我们选择P\&O予以实现。根据经验，选择$0.9U_{oc}$作为起始点，执行跟踪算法。在我们的程序中，每个时刻代表的是动作的时刻，在其后的$dt$时间内（一般为\SI{0.1}{\s}），保持该状态不变。如\cref{fig:const-po,fig:const-po-upt}所示，在光照不变的条件下，该算法很好地跟踪了最大功率点。
     \begin{figure}[htbp]
         \centering
         \includegraphics[width=0.9\textwidth]{../figure/const-p&o.eps}
@@ -121,6 +119,9 @@
         \caption{P\&O在光照恒定条件下跟踪情况}
         \label{fig:const-po-upt}
     \end{figure}
+
+    然而，当光照按照任务描述中发生变化时，该算法并不能很好地跟踪最大功率点，而出现错误的动作。如\cref{fig:po-fault,fig:po-fault-upt}所示，当光照降低时不会产生误判，而光照上升时，该算法无法跟踪最大功率点，功率曲线的形状较之光照曲线的形状发生了畸变。因此，还需要对P\&O进行改良。
+
     \begin{figure}[htbp]
         \centering
         \includegraphics[width=0.9\textwidth]{../figure/p&o-fault.eps}
@@ -136,6 +137,7 @@
     % subsection 常规mppt控制策略 (end)
     \subsection{改进MPPT：功率预测法} % (fold)
     \label{sub:改进mppt_功率预测法}
+
     \begin{figure}[htbp]
         \centering
         \includegraphics[width=0.9\textwidth]{../figure/p&o.eps}
@@ -166,6 +168,12 @@
     \end{enumerate}    
     \subsection{多峰值光伏阵列} % (fold)
     \label{sub:多峰值光伏阵列}
+    \begin{figure}[htbp]
+        \centering
+        \includegraphics[width=0.7\textwidth]{pvarray.png}
+        \caption{光伏阵列串并联结构}
+        \label{fig:pvarray}
+    \end{figure}
     \begin{figure}[htbp]
         \centering
         \includegraphics[width=0.9\textwidth]{../figure/curve-multimax.eps}
