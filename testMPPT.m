@@ -5,7 +5,7 @@ Ump=240/2;
 Pmp=10e3/4;
 Imp=Pmp/Ump;
 [Iph, I0, N, Rs] = calcPvParameters(Uoc, Isc, Ump, Imp);
-M=2;k1=0.5;k2=0.8;
+M=2;k1=0.6;k2=0.75;
 Iph1=Iph;Iph2=Iph*0.3;
 Iph3=0.9*Iph;Iph4=0.1*Iph;
 dt1=0.1;dt2=0.1;DU=10;dU=5;
@@ -26,7 +26,7 @@ close(h);
 js=0;u=0;U0=Uoc*ones(floor(M*Uoc/DU),1);
 while u<=M*Uoc
     for i=1:M
-        if k1*i*Uoc<u && k2*i*Uoc>u
+        if k1*i*Uoc<u && k2*Uoc+(i-1)*Uoc>u
             js=js+1;
             U0(js)=u;
             break;
