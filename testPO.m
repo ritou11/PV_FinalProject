@@ -60,7 +60,7 @@ xlim([0,Uoc*1.05]);
 ylim([0,1.05*max(Ui.*Ii1)]);
 xlabel('U/V');
 ylabel('P/W');
-title('¹¦ÂÊÔ¤²âP&OËã·¨×·×Ù¹ì¼£');
+title('P&OËã·¨×·×Ù¹ì¼£');
 grid on;
 grid minor;
 saveas(f,'figure/const-p&o.eps','epsc');

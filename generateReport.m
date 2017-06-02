@@ -6,11 +6,10 @@ testManySingle;
 %% Task 1.2
 testPO;
 testMPPTdynamic_fault;
-% -fault testMPPTdynamic
 %% Task 1.3
 testMPPTdynamic;
 %% Task 1.4
-
+testMPPTdynamic_eff;
 %% Task 2.1
 testMultiMaxCurve;
 testSingleMaxCurve;

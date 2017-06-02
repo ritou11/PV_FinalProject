@@ -28,6 +28,55 @@ h = waitbar(0,'Step 2 Please wait...');
 while t<Tmax
     n=n+1;
     t=t+0.5*dt2;
+    Pm=2*Um*PvFunctionI(Um,IphFunction(t,Iph1,Iph2,t1,t2,t3,t4,t5),I0,N,Rs)-Pm;
+    t=t+0.5*dt2;
+    if dir==0
+        Um=Um-dU;
+    else
+        Um=Um+dU;
+    end
+    U(n)=Um;
+    I(n)=PvFunctionI(U(n),IphFunction(t,Iph1,Iph2,t1,t2,t3,t4,t5),I0,N,Rs);
+    P(n)=U(n)*I(n);
+    if P(n)<Pm
+        if dir==0
+            dir=1;
+        else
+            dir=0;
+        end
+    end
+    Pm=P(n);
+    tstep(n) = t;
+    waitbar(t/Tmax);
+end
+close(h);
+%% Trim
+U = U(1:n);
+tstep = tstep(1:n);
+%% Calc
+U = repelem(U,2);
+tstep = repelem(tstep,2);
+U = U(1:2*n-1);
+tstep = tstep(2:2*n);
+P = tstep;
+Ps = tstep;
+h = waitbar(0,'Step 3 Please wait...');
+for i = 1:2*n-1
+    P(i) = U(i)*PvFunctionI(U(i),IphFunction(tstep(i),Iph1,Iph2,t1,t2,t3,t4,t5),I0,N,Rs);
+    Ps(i) = P(i)/MppFunction(IphFunction(tstep(i),Iph1,Iph2,t1,t2,t3,t4,t5),I0,N,Rs);
+    waitbar(i/(2*n-1));
+end
+close(h);
+%% Store
+ts1 = tstep;
+Ps1 = Ps;
+%% MPPT
+t=0;state=2;Um=0.9*Uoc;Pm=0;dir=0;k=0;n=0;
+tstep=zeros(Tmax/dt1,1);
+h = waitbar(0,'Step 4 Please wait...');
+while t<Tmax
+    n=n+1;
+    t=t+0.5*dt2;
     %Pm=2*Um*PvFunctionI(Um,IphFunction(t,Iph1,Iph2,t1,t2,t3,t4,t5),I0,N,Rs)-Pm;
     t=t+0.5*dt2;
     if dir==0
@@ -53,48 +102,37 @@ close(h);
 %% Trim
 U = U(1:n);
 tstep = tstep(1:n);
-I = I(1:n);
-%% Plot
-f = figure;
-plot(Ui,Ui.*Ii1,Ui,Ui.*Ii2,U,U.*I,'k*');
-xlim([0,Uoc*1.05]);
-ylim([0,1.05*max(max(Ui.*Ii1),max(Ui.*Ii2))]);
-xlabel('U/V');
-ylabel('P/W');
-title('P&O算法追踪轨迹');
-legend('1000W/m^2','300W/m^2','Location','NorthWest');
-grid on;
-grid minor;
-saveas(f,'figure/p&o-fault.eps','epsc');
-saveas(f,'figure/p&o-fault.png');
 %% Calc
 U = repelem(U,2);
 tstep = repelem(tstep,2);
 U = U(1:2*n-1);
 tstep = tstep(2:2*n);
 P = tstep;
-h = waitbar(0,'Step 3 Please wait...');
+Ps = tstep;
+h = waitbar(0,'Step 5 Please wait...');
 for i = 1:2*n-1
     P(i) = U(i)*PvFunctionI(U(i),IphFunction(tstep(i),Iph1,Iph2,t1,t2,t3,t4,t5),I0,N,Rs);
+    Ps(i) = P(i)/MppFunction(IphFunction(tstep(i),Iph1,Iph2,t1,t2,t3,t4,t5),I0,N,Rs);
     waitbar(i/(2*n-1));
 end
 close(h);
+%% Store
+ts2 = tstep;
+Ps2 = Ps;
 %% Plot P I t
-clf;
+f = figure;
 subplot(2,1,1);
-title('P&O算法追踪电压功率变化情况');
-yyaxis left;
-plot(tstep, U);
-ylabel('U/V');
-ylim([Uoc*0.35 Uoc*0.95]);
-yyaxis right;
-plot(tstep, P);
-ylabel('P/W');
+hold on;
+plot(ts1, Ps1*100);
+plot(ts2, Ps2*100);
+ylabel('MPPT Efficiency / %');
+ylim([0 105]);
 xlim([0, Tmax]);
-ylim([0, 1.05*max(P)]);
 xlabel('t/s');
 grid on;
 grid minor;
+title('MPPT效率对比');
+legend('功率预测P&O','P&O','Location','SouthEast');
 
 subplot(2,1,2);
 iphs = tstep;
@@ -110,6 +148,6 @@ grid minor;
 ylabel('光照强度/（W/m^2）');
 title('光照变化情况');
 
-saveas(f,'figure/p&o-upt-fault.eps','epsc');
-saveas(f,'figure/p&o-upt-fault.png');
+saveas(f,'figure/mppt-eff.eps','epsc');
+saveas(f,'figure/mppt-eff.png');
 close(f);

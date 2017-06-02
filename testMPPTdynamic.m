@@ -54,7 +54,6 @@ close(h);
 U = U(1:n);
 tstep = tstep(1:n);
 I = I(1:n);
-P = P(1:n);
 %% Plot
 f = figure;
 plot(Ui,Ui.*Ii1,Ui,Ui.*Ii2,U,U.*I,'k*');
@@ -68,16 +67,28 @@ grid on;
 grid minor;
 saveas(f,'figure/p&o.eps','epsc');
 saveas(f,'figure/p&o.png');
+%% Calc
+U = repelem(U,2);
+tstep = repelem(tstep,2);
+U = U(1:2*n-1);
+tstep = tstep(2:2*n);
+P = tstep;
+h = waitbar(0,'Step 3 Please wait...');
+for i = 1:2*n-1
+    P(i) = U(i)*PvFunctionI(U(i),IphFunction(tstep(i),Iph1,Iph2,t1,t2,t3,t4,t5),I0,N,Rs);
+    waitbar(i/(2*n-1));
+end
+close(h);
 %% Plot P I t
 clf;
 subplot(2,1,1);
 title('功率预测P&O算法追踪电压功率变化情况');
 yyaxis left;
-stairs(tstep, U);
+plot(tstep, U);
 ylabel('U/V');
 ylim([Uoc*0.35 Uoc*0.95]);
 yyaxis right;
-stairs(tstep, P);
+plot(tstep, P);
 ylabel('P/W');
 xlim([0, Tmax]);
 ylim([0, 1.05*max(P)]);
