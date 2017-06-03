@@ -33,7 +33,7 @@ xlim([0,Uoc*1.1]);
 title('I-V & P-V Curves');
 grid on;
 grid minor;
-legend('I-V Curve','P-V Curve');
+legend('I-V Curve','MPP','P-V Curve');
 xlabel('U/V');
 
 saveas(f,'figure/bare-pviv.eps','epsc');

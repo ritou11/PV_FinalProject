@@ -7,6 +7,8 @@
 \authorinfo{电41班, 2014010934, 2014010942}
 \runninghead{太阳能光伏发电及其应用2017年最终报告}
 \studytime{2017年6月}
+\setmonofont{Consolas}
+\lstMakeShortInline[style=Matlab-editor]"
 
 \begin{document}
     \begin{abstract}
@@ -86,7 +88,7 @@
         \label{eq:iphlambda}
     \end{equation}
 
-    在本任务中，逆变器看成一个理想的受控电压源，因此需要从光伏模型的$U$求解$I$。这需要求解一个非线性方程，使用MATLAB自带的fsolve函数求解较慢，因此采用朴素的牛顿迭代法求解，并排除不可行域($I>I_{ph}+I_0$)。这种方式时结果有实际意义，且提升了求解效率。单个光伏模型的代码如\cref{lst:single}所示。
+    在本任务中，逆变器看成一个理想的受控电压源，因此需要从光伏模型的$U$求解$I$。这需要求解一个非线性方程，使用MATLAB自带的fsolve函数求解较慢，因此采用朴素的牛顿迭代法求解，并排除不可行域($I>I_{ph}+I_0$)。这种方式使结果有实际意义，且提升了求解效率。单个光伏模型的代码如\cref{lst:single}所示。
     \lstinputlisting[label=lst:single,language=matlab]{../PvFunctionI.m}
 
     以上模型代码中增加了反并联二极管项，光伏单元端口电流中除\cref{fig:pv}中的光电流之外，还有反向并联的二极管电流，这一项电流在光伏单元正常工作的情况下可以忽略，光伏单元承受反压时将急剧增长。从实际意义上考虑，引入反并联二极管可以有效地避免光伏单元承受反压，在光伏单元串联而成的光伏阵列中具有实用价值。
@@ -190,7 +192,7 @@
     \end{enumerate}
     \subsection{多峰值光伏阵列} % (fold)
     \label{sub:多峰值光伏阵列}
-    在\cref{sub:光伏阵列模型搭建}中实现的光伏单元模块的基础上，本任务使用4块光伏单元串并联连接实现多峰值光伏阵列，为避免光伏单元承受反压而降低能量输出效率，每一块光伏阵列，如\cref{fig:pvarray}所示。4块光伏单元的光照强度可以独立变化，当其光照强度相差较大时，总阵列的输出特性将出现多峰值现象。
+    在\cref{sub:光伏阵列模型搭建}中实现的光伏单元模块的基础上，本任务使用4块光伏单元串并联连接实现多峰值光伏阵列，为避免光伏单元承受反压而降低能量输出效率，每一块光伏阵列均配有反并联二极管，如\cref{fig:pvarray}所示。4块光伏单元的光照强度可以独立变化，当其光照强度相差较大时，总阵列的输出特性将出现多峰值现象。
     \begin{figure}[htbp]
         \centering
         \includegraphics[width=0.7\textwidth]{pvarray.png}
@@ -371,13 +373,14 @@
           \item "testManySingle.m"：不同光照下光伏单元PV曲线；
           \item "testMPPT.m"：多峰值光伏阵列改进算法追踪；
           \item "testMPPTdynamic.m"：光照变化下功率预测法光伏单元追踪；
-          \item "testMPPTdynamic\_fault.m"：光照变化下P\&O法光伏单元追踪；
+          \item "testMPPTdynamic_fault.m"：光照变化下P\&O法光伏单元追踪；
           \item "testMPPTfail.m"：功率预测法多峰值光伏阵列追踪；
           \item "testMultiMaxCurve.m"：多峰值光伏阵列特性曲线绘制；
           \item "testPO.m"：恒定光照下P\&O法光伏单元跟踪；
           \item "testRange.m"：光伏单元不同光照下标幺PV曲线绘制；
           \item "testSingle.m"：简单光伏单元特性曲线绘制；
           \item "testSingleMaxCurve.m"：4单元光伏阵列在均匀光照下特性曲线绘制；
+          \item "contrib/"：包含过程中的尝试代码。
         \end{itemize}
     \end{appendix}
 \iffalse
